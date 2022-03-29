@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from backend import api
 from frontend import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/sleepdata/', api.SleepDataApi.as_view()),
+    path('api/heartrate/', api.HeartRateApi.as_view()),
     path('', views.IndexView.as_view()),
 ]

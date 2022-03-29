@@ -1,76 +1,95 @@
 {% extends 'Base.html' %}
 {% block content %}
+    <h1 class="welcome">Welcome Major Tom</h1>
 
+    <h1 class="message">You seem to be to {{ message.status }}</h1>
 
-<body>
+    <div class="lightshow" style="background-color: {{ settings.light }}">
+        <span style="font-size: 80px; color: black; display: table; margin: 0 auto">
+            <i class="fas fa-lamp"></i>
+         </span>
+    </div>
+    <div class="row">
 
-<h1 class="welcome">Welcome Jan</h1> 
-
-<h1 class="message">Try to go to sleep a little earlier today, you could use it</h1>
-
-<div class="row">
-
-      <div class="col-12">
-        <div class="card card-chart">
-          <div class="card-header ">
-            <div class="row">
-              <div class="col-sm-6 text-left">
-                <h5 class="card-category">Health</h5>
-                <h2 class="card-title">Sleep Pattern</h2>
-              </div>
-              
+        <div class="col-12">
+            <div class="card card-chart blurcontainer">
+                <div class="card-header ">
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <h5 class="card-category">Health</h5>
+                            <h2 class="card-title">Sleep Pattern</h2>
+                            <h3>Avg. Sleep: {{ data.sleep_avg }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative; height:20vh; margin: auto;">
+                        <canvas id="sleepPatternChart"></canvas>
+                    </div>
+                </div>
+                {% autoescape off %}
+                    <script>
+                        Charts.CreateSleepCharLocal("sleepPatternChart", {{health.sleep}})
+                    </script>
+                {% endautoescape %}
             </div>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="chartBig1"></canvas>
-            </div>
-          </div>
         </div>
-      </div>
 
     </div>
     <div class="row">
-      <div class="col-lg-4">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">Health</h5>
-            <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> Heart Rate</h3>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="chartLinePurple"></canvas>
+        <div class="col-lg-4">
+            <div class="card card-chart blurcontainer">
+                <div class="card-header">
+                    <h5 class="card-category">Health</h5>
+                    <h3 class="card-title">Heart Rate</h3>
+                    <h4 class="card-title">Avg: {{ data.heartbeat_avg|floatformat:0 }}</h4>
+                    <h4 class="card-title">Mood: {{ data.mood_str }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <div class="chart-container" style="position: relative; height:20vh; margin: auto;">
+                            <canvas id="heartRateChart"></canvas>
+                        </div>
+                        {% autoescape off %}
+                            <script>
+                                Charts.CreateLineChartLocal("heartRateChart", {{health.heartbeat}})
+                            </script>
+                        {% endautoescape %}
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">Environment</h5>
-            <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> Weather</h3>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="CountryChart"></canvas>
+        <div class="col-lg-4">
+            <div class="card card-chart blurcontainer">
+                <div class="card-header">
+                    <h5 class="card-category">Environment</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> Weather</h3>
+                </div>
+                <div class="card-body">
+                    <h3><b>Temperature</b>: {{ weather.AT.av }}</h3>
+                    <h3><b>Wind</b>: {{ weather.HWS.av }}</h3>
+                    <h3><b>Season</b>: {{ weather.Season }}</h3>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="card card-chart">
-          <div class="card-header">
-            <h5 class="card-category">Environment</h5>
-            <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> Distance</h3>
-          </div>
-          <div class="card-body">
-            <div class="chart-area">
-              <canvas id="chartLineGreen"></canvas>
+        <div class="col-lg-4">
+            <div class="card card-chart blurcontainer">
+                <div class="card-header">
+                    <h5 class="card-category">Environment</h5>
+                    <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> Distance</h3>
+                </div>
+                <div class="card-body">
+                    <h3><b>Distance to Earth in AU</b>: {{ distance.au }}</h3>
+                    <h3><b>Distance to Earth in km</b>: {{ distance.km }}</h3>
+                    <h3><b>One way comm time</b>: {{ distance.time }} minutes</h3>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-
-</body>
-{% endblock content%}
+    <script>
+        $(".blurcontainer").each(function () {
+            $(this).css("background-color", "{{ settings.color }}");
+        })
+        $("body").css('background-image', 'url(' + "{{ settings.background }}" + ')');
+    </script>
+{% endblock content %}

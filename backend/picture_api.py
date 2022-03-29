@@ -18,4 +18,4 @@ def get_animal_picture_link(animal):
     response = requests.get(
         f"https://api.unsplash.com/search/photos?page=1&query={animal}&client_id={ACCESS_KEY}&per_page=10")
     images = response.json()['results']
-    return images[random.randint(0, 9)]['urls']['full']  # Lets get a radom picture every time
+    return random.choice(images)['urls']['regular']  # Lets get a radom picture every time
