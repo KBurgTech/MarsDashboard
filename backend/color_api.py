@@ -3,7 +3,7 @@ from backend.mood import MOODS
 # https://www.mountainvistapsychology.com/color-psychology-the-effects-of-color/
 
 COLORS = {
-    MOODS.Happy: "68, 160, 227",
+    MOODS.Happy: "244, 138, 29",
     MOODS.Angry: "68, 160, 227",
     MOODS.Sad: "234, 207, 42",
     MOODS.Anxious: "10, 163, 80",
